@@ -1,3 +1,4 @@
+//Design Module
 module _1001detector(
 input clk,rst,
 input in,
@@ -54,7 +55,7 @@ output out);
 assign out=(prst==s3 && in==1)?1'b1:1'b0;
 endmodule
 
-//
+//Testbench with Coverage
 module tb;
   bit clk,rst,in;
   logic out;
