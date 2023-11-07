@@ -26,3 +26,47 @@ module t;
       $dumpvars;
     end
 endmodule
+
+//
+////wild card bins
+module test;
+  bit clk;
+  bit [3:0]state;
+  always #5 clk=~clk;
+  covergroup cg@(posedge clk);
+    option.per_instance=1;
+    option.comment="wildcard bins";
+    coverpoint state{
+      wildcard bins wd[]={4'b11xx};
+      wildcard bins wd1[]=(4'b001x=>4'b11xx);
+    }
+  endgroup
+  initial
+    begin
+      cg c=new;
+      repeat(30)
+        begin
+          @(negedge clk);
+          state=$urandom;
+        end
+      for(int i=2;i<=3;i++)
+        begin
+          for(int j=12;j<=15;j++)
+            begin
+              @(negedge clk);
+              state=i;
+              $display("i=%0d",i);
+              @(negedge clk);
+              state=j;
+              $display("j=%0d",j);
+            end
+        end
+    end
+  initial
+    begin
+      $dumpfile("dump.vcd");
+      $dumpvars;
+      #600 $finish;
+    end
+endmodule
+
