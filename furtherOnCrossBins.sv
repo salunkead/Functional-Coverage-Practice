@@ -1,4 +1,4 @@
-///behaviour of cross bin filtering 
+///Behaviour of cross bin filtering 
 ///scene-1 variable cross
 module test;
   bit [4:0]addr;
@@ -7,9 +7,9 @@ module test;
   covergroup cg@(posedge clk);
     option.per_instance=1;
     cross addr,wr{
-      bins c1=binsof(addr) intersect{[0:20]};
+      ignore_bins c1=binsof(addr) intersect{[0:20]};
       ///consider the range from 21 to 31 for cross calculation
-      bins c2=binsof(wr) intersect {0};
+      ignore_bins c2=binsof(wr) intersect {0};
       //consider wr value of wr==1
     }
   endgroup
@@ -93,10 +93,10 @@ module test;
      ///we are taking cross of two coverpoints addr and wr
      ///in addr coverpoint,we have taken two bins a1 and a2 and cross will be considered for taking into the consideration of these two bins
     cross addr,wr{
-      bins c1=binsof(addr)intersect{[5:10]};
-      ///addr range from 20 to 31
-      bins c2=binsof(wr)intersect{0};
-      ///wr 1
+      ignore_bins c1=binsof(addr)intersect{[5:10]};
+      ///addr range from 20 to 31 is considered
+      ignore_bins c2=binsof(wr)intersect{0};
+      ///wr 1 is considered for coverage calculation
     }
   endgroup
   
@@ -139,7 +139,7 @@ module test;
       bins wr0={0};
     }
     cross addr,wr{
-      bins c1=binsof(addr.a1)&&binsof(wr.wr1);
+      ignore_bins c1=binsof(addr.a1)&&binsof(wr.wr1);
      //in cross,there will be cross of 5 to 10 with 0
      //and cross of a2 bin [20:$] with 1 as well as 0
     }
