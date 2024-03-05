@@ -1,4 +1,4 @@
-///
+///consecutive repeatition and transition coverage
 module test;
   bit clk;
   bit [3:0]addr;
@@ -54,7 +54,7 @@ module test;
     option.comment="bins for transition coverage";
     coverpoint state{
       //bins trans1[]=(1,2=>3,4);
-      bins trans2[]=(1=>3,1=>4,2=>3,2=>4); //this is not same as above
+      bins trans2=(1=>3,1=>4,2=>3,2=>4); //this is not same as above
                                          //1->(3 or 1)->(4 or 2)->(3 or 2)->4
     }
   endgroup
