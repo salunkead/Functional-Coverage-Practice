@@ -1,5 +1,35 @@
 ///covering a coverpoint using function call
 module test;
+  bit [3:0]num;
+  bit control;
+  function bit[3:0] send(bit ctrl);
+    if(ctrl)begin
+      num=4;
+      return num;
+    end
+    else
+      begin
+        num=5;
+        return num;
+      end
+  endfunction
+  
+  covergroup cg(bit ctrl);
+    option.per_instance=1;
+    coverpoint num{
+      bins t[]={send(ctrl)};
+    }
+  endgroup
+  
+  initial
+    begin
+      cg c=new(0);
+      c.sample;
+    end
+endmodule
+
+/////////////////////////////////////////////////////////////////////////////////
+module test;
   typedef enum bit{busy,quit}state;
   state s;
   bit clk;
